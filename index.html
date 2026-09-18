@@ -10,8 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         body {
@@ -25,7 +23,6 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
         }
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -49,7 +46,7 @@
             <!-- Logo -->
             <div class="flex items-center space-x-3">
                 <div class="bg-indigo-600 text-white p-2.5 rounded-xl flex items-center justify-center shadow-md shadow-indigo-100">
-                    <i class="fa-solid font-bold fa-check-double text-lg"></i>
+                    <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
                 <div>
                     <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
@@ -60,28 +57,33 @@
             </div>
 
             <!-- User Auth Area -->
-            <div id="auth-area" class="flex items-center">
+            <div id="auth-area" class="flex items-center space-x-2">
                 <!-- Loading State -->
                 <div id="auth-loading" class="flex items-center space-x-2 text-slate-400 text-sm">
-                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                    <svg class="animate-spin h-4 w-4 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     <span>読み込み中...</span>
                 </div>
 
-                <!-- Unauthenticated State -->
-                <button id="btn-login" class="hidden flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white font-medium px-4 py-2 rounded-xl text-sm transition-all duration-200 shadow-sm hover:shadow active:scale-95">
-                    <i class="fa-brands fa-google text-red-400"></i>
-                    <span>Googleでログイン</span>
-                </button>
+                <!-- Unauthenticated State Buttons -->
+                <div id="auth-buttons" class="hidden flex items-center space-x-2">
+                    <button id="btn-login-anon" class="hidden sm:inline-flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-1.5 rounded-xl text-xs transition-all">
+                        <span>ゲスト(匿名)で試す</span>
+                    </button>
+                    <button id="btn-login" class="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3.5 py-1.5 rounded-xl text-xs transition-all shadow-sm">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.24 10.285V13.4h6.887c-.58 2.719-2.855 4.715-6.887 4.715-4.14 0-7.5-3.36-7.5-7.5s3.36-7.5 7.5-7.5c2.03 0 3.87.77 5.27 2.03l2.36-2.36C17.7 1.25 15.16 0 12.24 0 5.63 0 0 5.63 0 12.24s5.63 12.24 12.24 12.24c7.04 0 12.16-4.96 12.16-12.16 0-.81-.08-1.59-.2-2.035H12.24z"/></svg>
+                        <span>Googleログイン</span>
+                    </button>
+                </div>
 
                 <!-- Authenticated State -->
                 <div id="user-profile" class="hidden flex items-center space-x-3">
-                    <img id="user-avatar" src="" alt="User Avatar" class="w-9 h-9 rounded-full border-2 border-indigo-100 object-cover">
+                    <img id="user-avatar" src="" alt="User Avatar" class="w-8 h-8 rounded-full border-2 border-indigo-100 object-cover">
                     <div class="hidden md:block text-left">
-                        <div id="user-name" class="text-sm font-semibold text-slate-700 leading-tight"></div>
-                        <div id="user-email" class="text-xs text-slate-400 leading-tight"></div>
+                        <div id="user-name" class="text-xs font-semibold text-slate-700 leading-tight"></div>
+                        <div id="user-email" class="text-[10px] text-slate-400 leading-tight"></div>
                     </div>
-                    <button id="btn-logout" title="ログアウト" class="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-xl transition-colors">
-                        <i class="fa-solid fa-right-from-bracket text-base"></i>
+                    <button id="btn-logout" title="ログアウト" class="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1.5 rounded-lg transition-colors">
+                        <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l3 3m0 0l-3 3m3-3H2.25" /></svg>
                     </button>
                 </div>
             </div>
@@ -92,18 +94,23 @@
     <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         <!-- Unauthenticated Hero Landing -->
-        <div id="logged-out-view" class="hidden my-12 text-center max-w-2xl mx-auto py-12 px-6 bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50">
-            <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">
-                <i class="fa-solid fa-list-check"></i>
+        <div id="logged-out-view" class="hidden my-8 text-center max-w-2xl mx-auto py-12 px-6 bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm0 5.25h.007v.008H3.75V12zm0 5.25h.007v.008H3.75v-.008z" /></svg>
             </div>
-            <h2 class="text-3xl font-bold text-slate-800 mb-3">スマートにタスクを管理</h2>
-            <p class="text-slate-500 mb-8 leading-relaxed">
-                Googleアカウントでサインインして、すべてのデバイスからリアルタイムにタスクを管理・整理しましょう。
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">スマートにタスクをリアルタイム管理</h2>
+            <p class="text-slate-500 mb-8 text-sm leading-relaxed">
+                Googleアカウントまたはゲストモードでログインして、マルチデバイスでタスクを同期管理しましょう。
             </p>
-            <button id="btn-hero-login" class="inline-flex items-center space-x-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3.5 rounded-xl text-base transition-all duration-200 shadow-lg shadow-indigo-200 hover:shadow-indigo-300 active:scale-95">
-                <i class="fa-brands fa-google text-lg"></i>
-                <span>Googleでログインして始める</span>
-            </button>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button id="btn-hero-login" class="w-full sm:w-auto inline-flex items-center justify-center space-x-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-xl text-sm transition-all shadow-lg shadow-indigo-200 hover:shadow-indigo-300 active:scale-95">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.24 10.285V13.4h6.887c-.58 2.719-2.855 4.715-6.887 4.715-4.14 0-7.5-3.36-7.5-7.5s3.36-7.5 7.5-7.5c2.03 0 3.87.77 5.27 2.03l2.36-2.36C17.7 1.25 15.16 0 12.24 0 5.63 0 0 5.63 0 12.24s5.63 12.24 12.24 12.24c7.04 0 12.16-4.96 12.16-12.16 0-.81-.08-1.59-.2-2.035H12.24z"/></svg>
+                    <span>Googleでログインして始める</span>
+                </button>
+                <button id="btn-hero-anon" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-6 py-3 rounded-xl text-sm transition-all active:scale-95">
+                    <span>ゲストモードで試す (設定不要)</span>
+                </button>
+            </div>
         </div>
 
         <!-- Authenticated Dashboard Area -->
@@ -117,7 +124,7 @@
                         <p id="stat-total" class="text-2xl font-bold text-slate-800">0</p>
                     </div>
                     <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                        <i class="fa-solid fa-bars-staggered"></i>
+                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                     </div>
                 </div>
 
@@ -127,7 +134,7 @@
                         <p id="stat-pending" class="text-2xl font-bold text-amber-600">0</p>
                     </div>
                     <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                        <i class="fa-regular fa-clock"></i>
+                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
                 </div>
 
@@ -137,7 +144,7 @@
                         <p id="stat-completed" class="text-2xl font-bold text-emerald-600">0</p>
                     </div>
                     <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                        <i class="fa-regular fa-circle-check"></i>
+                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
                 </div>
             </div>
@@ -145,7 +152,7 @@
             <!-- Add Task Form Container -->
             <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                 <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                    <i class="fa-solid fa-plus text-indigo-600"></i>
+                    <svg class="w-5 h-5 text-indigo-600 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                     <span>新しいタスクの追加</span>
                 </h3>
 
@@ -190,7 +197,7 @@
 
                     <div class="flex justify-end">
                         <button type="submit" id="btn-submit-task" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center space-x-2 shadow-sm shadow-indigo-100 active:scale-95">
-                            <i class="fa-solid fa-paper-plane"></i>
+                            <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3 21l18-9L3 3l3 9zm0 0h75" /></svg>
                             <span>タスクを追加</span>
                         </button>
                     </div>
@@ -208,33 +215,32 @@
 
                 <!-- Search Input -->
                 <div class="relative flex-1 md:max-w-xs">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <svg class="w-4 h-4 stroke-current text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
                     <input type="text" id="search-input" placeholder="タスクを検索..." class="w-full pl-9 pr-4 py-2 bg-white rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-xs">
                 </div>
             </div>
 
             <!-- Task List Container -->
             <div id="task-list" class="space-y-3">
-                <!-- Task Cards will be rendered dynamically here -->
+                <!-- Task Cards will be rendered dynamically -->
             </div>
 
             <!-- Empty State -->
             <div id="empty-state" class="hidden text-center py-12 px-4 border-2 border-dashed border-slate-200 rounded-2xl">
-                <i class="fa-regular fa-clipboard text-3xl text-slate-300 mb-3 block"></i>
                 <p class="text-sm font-medium text-slate-500">該当するタスクが見つかりません</p>
                 <p class="text-xs text-slate-400 mt-1">新しいタスクを追加するか、フィルター条件を変更してください。</p>
             </div>
         </div>
     </main>
 
-    <!-- Custom Modal UI for Alert & Confirm -->
+    <!-- Custom Modal UI for Dialogs & Setup Guide -->
     <div id="custom-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-100 transform transition-all scale-100">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 transform transition-all scale-100">
             <h4 id="modal-title" class="text-base font-bold text-slate-800 mb-2">確認</h4>
-            <p id="modal-message" class="text-sm text-slate-600 mb-6">本当に実行しますか？</p>
+            <div id="modal-message" class="text-xs text-slate-600 mb-6 leading-relaxed">本当に実行しますか？</div>
             <div class="flex items-center justify-end space-x-3">
                 <button id="modal-btn-cancel" class="px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">キャンセル</button>
-                <button id="modal-btn-confirm" class="px-4 py-2 text-xs font-medium bg-red-600 hover:bg-red-700 text-white rounded-xl transition-colors shadow-sm">実行</button>
+                <button id="modal-btn-confirm" class="px-4 py-2 text-xs font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-colors shadow-sm">OK</button>
             </div>
         </div>
     </div>
@@ -249,6 +255,7 @@
             getAuth, 
             GoogleAuthProvider, 
             signInWithPopup, 
+            signInAnonymously,
             signOut, 
             onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -287,8 +294,11 @@
 
         // DOM Elements
         const authLoading = document.getElementById('auth-loading');
+        const authButtons = document.getElementById('auth-buttons');
         const btnLogin = document.getElementById('btn-login');
+        const btnLoginAnon = document.getElementById('btn-login-anon');
         const btnHeroLogin = document.getElementById('btn-hero-login');
+        const btnHeroAnon = document.getElementById('btn-hero-anon');
         const btnLogout = document.getElementById('btn-logout');
         const userProfile = document.getElementById('user-profile');
         const userAvatar = document.getElementById('user-avatar');
@@ -329,9 +339,7 @@
                 type === 'success' ? 'bg-emerald-600' : type === 'error' ? 'bg-rose-600' : 'bg-slate-800'
             }`;
             
-            const icon = type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info';
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
-            
+            toast.innerHTML = `<span>${message}</span>`;
             toastContainer.appendChild(toast);
             
             setTimeout(() => {
@@ -344,12 +352,18 @@
             }, 3000);
         }
 
-        // Custom Confirm Dialog Replacement (No native confirm())
-        function showConfirmModal(title, message) {
+        // Custom Modal Function
+        function showModal(title, htmlContent, showCancel = true) {
             return new Promise((resolve) => {
                 modalTitle.textContent = title;
-                modalMessage.textContent = message;
+                modalMessage.innerHTML = htmlContent;
                 customModal.classList.remove('hidden');
+
+                if (!showCancel) {
+                    modalBtnCancel.classList.add('hidden');
+                } else {
+                    modalBtnCancel.classList.remove('hidden');
+                }
 
                 const handleConfirm = () => {
                     cleanup();
@@ -380,12 +394,44 @@
                 showToast('ログインしました', 'success');
             } catch (error) {
                 console.error("Authentication Error:", error);
-                showToast(`ログインエラー: ${error.message}`, 'error');
+                
+                // auth/configuration-not-found の解説ダイアログを表示
+                if (error.code === 'auth/configuration-not-found' || error.message.includes('CONFIGURATION_NOT_FOUND')) {
+                    showModal(
+                        '🔑 Googleログインの設定が必要です',
+                        `<div class="space-y-2">
+                            <p class="font-semibold text-rose-600">FirebaseコンソールでGoogle認証が未有効化です。</p>
+                            <p>以下の手順で有効にしてください（1分で完了します）：</p>
+                            <ol class="list-decimal list-inside bg-slate-50 p-2.5 rounded-lg space-y-1 text-[11px] text-slate-700">
+                                <li><b>Firebase Console</b> (console.firebase.google.com) を開く</li>
+                                <li>プロジェクト <b>task-258ef</b> を選択</li>
+                                <li><b>Authentication</b> ➔ <b>Sign-in method</b> を開く</li>
+                                <li><b>Google</b> を選択し「有効にする」をONにして保存</li>
+                            </ol>
+                            <p class="text-slate-400 pt-1">※設定完了後、再度Googleログインをお試しください。「ゲストモード」なら今すぐお使いいただけます。</p>
+                        </div>`,
+                        false
+                    );
+                } else {
+                    showToast(`ログインエラー: ${error.message}`, 'error');
+                }
+            }
+        };
+
+        const handleAnonLogin = async () => {
+            try {
+                await signInAnonymously(auth);
+                showToast('ゲストとしてログインしました', 'success');
+            } catch (error) {
+                console.error("Anon Auth Error:", error);
+                showToast(`ゲストログインエラー: ${error.message}`, 'error');
             }
         };
 
         btnLogin.addEventListener('click', handleGoogleLogin);
         btnHeroLogin.addEventListener('click', handleGoogleLogin);
+        btnLoginAnon.addEventListener('click', handleAnonLogin);
+        btnHeroAnon.addEventListener('click', handleAnonLogin);
 
         btnLogout.addEventListener('click', async () => {
             try {
@@ -402,11 +448,11 @@
             if (user) {
                 currentUser = user;
                 // Display User Profile
-                userAvatar.src = user.photoURL || 'https://placehold.co/100x100/e2e8f0/64748b?text=User';
-                userName.textContent = user.displayName || 'ユーザー';
-                userEmail.textContent = user.email || '';
+                userAvatar.src = user.photoURL || `https://placehold.co/100x100/6366f1/ffffff?text=${user.isAnonymous ? 'G' : 'U'}`;
+                userName.textContent = user.displayName || (user.isAnonymous ? 'ゲストユーザー' : 'ユーザー');
+                userEmail.textContent = user.email || (user.isAnonymous ? 'ゲスト認証' : '');
 
-                btnLogin.classList.add('hidden');
+                authButtons.classList.add('hidden');
                 userProfile.classList.remove('hidden');
 
                 loggedOutView.classList.add('hidden');
@@ -421,7 +467,7 @@
                     unsubscribeTasks = null;
                 }
                 userProfile.classList.add('hidden');
-                btnLogin.classList.remove('hidden');
+                authButtons.classList.remove('hidden');
 
                 loggedInView.classList.add('hidden');
                 loggedOutView.classList.remove('hidden');
@@ -512,7 +558,7 @@
         // Delete Task
         window.deleteTask = async (taskId) => {
             if (!currentUser) return;
-            const confirmed = await showConfirmModal('タスクの削除', 'このタスクを削除してもよろしいですか？');
+            const confirmed = await showModal('タスクの削除', 'このタスクを削除してもよろしいですか？');
             if (!confirmed) return;
 
             try {
@@ -531,11 +577,9 @@
 
             // Apply Status Filter and Search
             const filteredTasks = allTasks.filter(task => {
-                // Filter status
                 if (currentFilter === 'pending' && task.completed) return false;
                 if (currentFilter === 'completed' && !task.completed) return false;
 
-                // Search query
                 if (searchQuery) {
                     const q = searchQuery.toLowerCase();
                     const matchTitle = task.title?.toLowerCase().includes(q);
@@ -556,11 +600,10 @@
 
             filteredTasks.forEach((task) => {
                 const card = document.createElement('div');
-                card.className = `task-card bg-white p-4.5 rounded-2xl border ${
+                card.className = `task-card bg-white p-4.5 p-4 rounded-2xl border ${
                     task.completed ? 'border-slate-200 bg-slate-50/50' : 'border-slate-100'
                 } flex flex-col sm:flex-row sm:items-center justify-between gap-4`;
 
-                // Badge Styles for Priority
                 let priorityColor = 'bg-slate-100 text-slate-600';
                 if (task.priority === 'high') priorityColor = 'bg-rose-50 text-rose-600 border border-rose-100';
                 if (task.priority === 'medium') priorityColor = 'bg-amber-50 text-amber-600 border border-amber-100';
@@ -570,30 +613,29 @@
 
                 card.innerHTML = `
                     <div class="flex items-start space-x-3 flex-1 min-w-0">
-                        <button onclick="toggleTaskComplete('${task.id}', ${task.completed})" class="mt-0.5 text-lg transition-colors focus:outline-none">
+                        <button onclick="toggleTaskComplete('${task.id}', ${task.completed})" class="mt-0.5 transition-colors focus:outline-none">
                             ${
                                 task.completed 
-                                ? '<i class="fa-solid fa-circle-check text-emerald-500"></i>' 
-                                : '<i class="fa-regular fa-circle text-slate-300 hover:text-indigo-500"></i>'
+                                ? '<svg class="w-5 h-5 text-emerald-500 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' 
+                                : '<svg class="w-5 h-5 text-slate-300 hover:text-indigo-500 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>'
                             }
                         </button>
                         <div class="flex-1 min-w-0">
                             <div class="flex flex-wrap items-center gap-2 mb-1">
-                                <span class="text-xs px-2 py-0.5 rounded-md font-semibold ${priorityColor}">
+                                <span class="text-[10px] px-2 py-0.5 rounded-md font-semibold ${priorityColor}">
                                     優先度: ${priorityLabel}
                                 </span>
                                 ${
                                     task.category ? `
-                                    <span class="text-xs px-2 py-0.5 rounded-md font-medium bg-slate-100 text-slate-600">
+                                    <span class="text-[10px] px-2 py-0.5 rounded-md font-medium bg-slate-100 text-slate-600">
                                         ${task.category}
                                     </span>
                                     ` : ''
                                 }
                                 ${
                                     task.dueDate ? `
-                                    <span class="text-xs text-slate-400 flex items-center space-x-1">
-                                        <i class="fa-regular fa-calendar text-slate-400"></i>
-                                        <span>${task.dueDate}</span>
+                                    <span class="text-[10px] text-slate-400 flex items-center space-x-1">
+                                        <span>📅 ${task.dueDate}</span>
                                     </span>
                                     ` : ''
                                 }
@@ -612,7 +654,7 @@
                     </div>
                     <div class="flex items-center justify-end space-x-2 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
                         <button onclick="deleteTask('${task.id}')" title="削除" class="text-slate-400 hover:text-rose-600 hover:bg-rose-50 p-2 rounded-xl transition-colors">
-                            <i class="fa-regular fa-trash-can text-sm"></i>
+                            <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
                         </button>
                     </div>
                 `;
